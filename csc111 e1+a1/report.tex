@@ -1,0 +1,194 @@
+[file name]: report.tex
+[file content begin]
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+
+\title{CSC111 Winter 2025 Project 1}
+\author{Bobby Xiao, Hongyi mei}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Running the game}
+The game can be executed by running \texttt{python adventure.py}. No additional modules or installations are required.
+
+\section*{Game Map}
+\begin{verbatim}
+Map Hierarchy:
+          9
+      5   8
+      2   
+ 4(7) 1  3[6]
+ Where (7) denotes that 4(7) is a floor above 4, 3[6] denotes that [6] is a floor below 3.
+ 
+Floors:
+- (7) Engineering Lab is above 4 (Fleming Building)
+- [6] Food Court is below 3 (Sidney Smith)
+\end{verbatim}
+
+Starting location: 1 (Bahen Center Lobby)
+
+\section*{Game solution}
+List of commands (15 steps):
+\begin{enumerate}
+    \item go north (to Robarts Library Entrance)
+    \item pick up usb drive
+    \item pick up library card
+    \item go south (Bahen Lobby)
+    \item go east (Sidney Smith Hall)
+    \item go down (Food Court)
+    \item pick up professor note
+    \item go up (Sidney Smith Hall)
+    \item go west (Bahen Lobby)
+    \item go north (Robarts Library Entrance)
+    \item go north (Robarts 3rd Floor)
+    \item pick up laptop charger
+    \item go east (Robarts Rare Books)
+    \item pick up lucky mug
+    \item go north (Dorm)
+\end{enumerate}
+
+\section*{Lose condition(s)}
+Players lose if they exhaust all 30 moves before reaching the dorm with required items. \\
+\textbf{Code components:} 
+\begin{itemize}
+    \item \texttt{adventure.py}: \texttt{moves\_left} attribute and termination check in main loop
+    \item Movement logic in \texttt{process\_command} and location transitions
+\end{itemize}
+
+\section*{Inventory}
+\begin{enumerate}
+    \item Locations with items: 1, 2, 4, 5, 6, 8, 9
+    \item Item data:
+    \begin{enumerate}
+        \item USB Drive:
+        \begin{itemize}
+            \item Start: 2 | Target: 9, win condition
+        \end{itemize}
+        \item Library Card:
+        \begin{itemize}
+            \item Start: 2 | Target: 8, unlock Robarts Rare Books room
+        \end{itemize}
+        \item Professor Note:
+        \begin{itemize}
+            \item Start: 6 | Target: 8, unlock Robarts Rare Books room
+        \end{itemize}
+        \item Laptop Charger:
+        \begin{itemize}
+            \item Start: 5 | Target: 9, win condition
+        \end{itemize}
+        \item Lucky Mug:
+        \begin{itemize}
+            \item Start: 8 | Target: 9, win condition
+        \end{itemize}
+        \item Lab Coat:
+        \begin{itemize}
+            \item Start: 4 | Decoration
+        \end{itemize}
+        \item Handouts:
+        \begin{itemize}
+            \item Start: 1 | Decoration
+        \end{itemize}
+        \item Laptop:
+        \begin{itemize}
+            \item Start: 9 | Decoration
+        \end{itemize}
+    \end{enumerate}
+    \item Commands:
+    \begin{itemize}
+        \item Pick up: \texttt{pick up <item>}
+        \item Drop item: \texttt{drop item <item>}
+        \item Check inventory: \texttt{inventory}
+    \end{itemize}
+    \item Code components:
+    \begin{itemize}
+        \item \texttt{AdventureGame.pick\_up\_item()} (lines 95-116)
+        \item \texttt{AdventureGame.drop\_of\_item()} (lines 118-126)
+        \item Weight tracking via \texttt{get\_current\_weight()} (line 180)
+    \end{itemize}
+    \item Demo:
+    \begin{verbatim}
+    inventory_demo = [
+        "go north", "pick up usb drive", "inventory",
+        "drop item usb drive", "inventory", "go south",
+        "pick up handouts", "inventory"
+    ]
+    \end{verbatim}
+\end{enumerate}
+
+\section*{Score}
+\begin{enumerate}
+    \item Players earn points by picking up items (e.g., +10 for USB drive)
+    \item Score demo commands:
+    \begin{verbatim}
+    score_demo = [
+        "go north",  # 2
+        "pick up usb drive",  # +10 points
+        "score",  # Check score
+        "go south",  # 1
+        "go east",  # 3
+        "pick up professor note",  # +15 points
+        "score"  # Total 25
+    ]
+    \end{verbatim}
+    \item Code components:
+    \begin{itemize}
+        \item \texttt{Item.target\_points} attribute (\texttt{game\_entities.py} line 83)
+        \item Score calculation in \texttt{AdventureGame} "score" handler (lines 159-161)
+    \end{itemize}
+\end{enumerate}
+
+\section*{Enhancements}
+\begin{enumerate}
+    \item Puzzle System for Locked Locations
+    \begin{itemize}
+        \item Description: Locations like Robarts Rare Books (ID 8) require specific items to unlock. Players must collect prerequisites (library card + professor note) to access them.
+        \item Complexity: Medium
+        \item Implementation: Added \texttt{locked} and \texttt{required\_items} attributes to Location class (\texttt{game\_entities.py} lines 36-37). Modified movement logic in \texttt{adventure.py} (lines 200-208) to check prerequisites
+        \item Changed 40+ lines across 2 files
+        \item Demo:
+        \begin{verbatim}
+        enhancement2_demo = [
+            "go north",  # Move to location 2 (Robarts Library Entrance)
+            "go north",  # Move to location 5 (Robarts 3rd Floor)
+            "go east",  # Attempt to move to location 8 (Robarts Rare Books) - locked
+            "go south",  # Move back to location 2 (Robarts Library Entrance)
+            "go south",  # Move back to location 1 (Bahen Center Lobby)
+            "go east",  # Move to location 3 (Sidney Smith Hall)
+            "pick up professor note",  # Pick up the professor note in location 3
+            "go west",  # Move back to location 1 (Bahen Center Lobby)
+            "go north",  # Move to location 2 (Robarts Library Entrance)
+            "pick up library card",  # Pick up the library card in location 2
+            "go north",  # Move to location 5 (Robarts 3rd Floor)
+            "go east"  # Successfully unlock and move to location 8 (Robarts Rare Books)
+        ]
+        \end{verbatim}
+    \end{itemize}
+    \item Weight Management System
+    \begin{itemize}
+        \item Description: Players can carry max 1.5kg. Items have weights (USB=0.2kg, Mug=0.6kg). Must drop items to manage capacity
+        \item Complexity: High
+        \item Implementation: Added \texttt{weight} attribute to Items (\texttt{game\_entities.py} line 84). Weight tracking in \texttt{pick\_up\_item()} (lines 104-109) and \texttt{get\_current\_weight()} (line 180). New drop command handling
+        \item Changed 40+ lines across 3 files
+        \item Demo:
+        \begin{verbatim}
+        enhancement1_demo = [
+            "go north",  # 2
+            "pick up usb drive",  # 0.2kg
+            "pick up library card",  # 0.1kg (total 0.3)
+            "go south",  # 1
+            "go east",  # 3
+            "pick up professor note",  # 0.1kg (total 0.4)
+            "pick up philosophy textbook"  # 0.2kg (total 0.6) - under 1.5kg
+        ]
+        \end{verbatim}
+    \end{itemize}
+\end{enumerate}
+
+\end{document}
+[file content end]

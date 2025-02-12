@@ -1,0 +1,179 @@
+{
+  "locations": [
+    {
+      "id": 1,
+      "name": "Bahen Center Lobby",
+      "brief_description": "You are in the Bahen Center ground floor lobby.",
+      "long_description": "You're standing on the ground floor of Bahen Center. Students pass by hurriedly, and there's an elevator to the north. You spot a campus map on the wall and some scattered handouts on a nearby table.",
+      "available_commands": {
+        "go north": 2,
+        "go east": 3,
+        "go west": 4
+      },
+      "items": ["handouts"],
+      "locked": false
+    },
+    {
+      "id": 2,
+      "name": "Robarts Library Entrance",
+      "brief_description": "You stand outside the massive concrete library.",
+      "long_description": "The imposing Robarts Library towers above you. The main entrance is to the north, while a path leads south back to Bahen.",
+      "available_commands": {
+        "go south": 1,
+        "go north": 5
+      },
+      "items": ["usb drive"],
+      "locked": false
+    },
+    {
+      "id": 3,
+      "name": "Sidney Smith Hall",
+      "brief_description": "Arts & Science building atrium.",
+      "long_description": "Students debate philosophy and math at cafe tables. Exits lead west to Bahen and down to the food court.",
+      "available_commands": {
+        "go west": 1,
+        "go down": 6
+      },
+      "items": [],
+      "locked": false
+    },
+    {
+      "id": 4,
+      "name": "Sandford Fleming Building",
+      "brief_description": "Engineering building entrance.",
+      "long_description": "Purple-coveralled engineers rush between labs. A staircase leads up to lecture halls.",
+      "available_commands": {
+        "go east": 1,
+        "go up": 7
+      },
+      "items": ["calculator"],
+      "locked": false
+    },
+    {
+      "id": 5,
+      "name": "Robarts 3rd Floor",
+      "brief_description": "Quiet study area.",
+      "long_description": "Rows of desks with students cramming for exams. A special collections room lies to the east.",
+      "available_commands": {
+        "go south": 2,
+        "go east": 8
+      },
+      "items": ["laptop charger"],
+      "locked": false
+    },
+    {
+      "id": 6,
+      "name": "Food Court",
+      "brief_description": "Underground eateries.",
+      "long_description": "Smells of coffee and fried food. Exit leads up to Sidney Smith.",
+      "available_commands": {
+        "go up": 3
+      },
+      "items": ["stale bagel"],
+      "locked": false
+    },
+    {
+      "id": 7,
+      "name": "Engineering Lab",
+      "brief_description": "Robotics lab.",
+      "long_description": "Buzzing with 3D printers and robot prototypes. Exit leads down to Fleming.",
+      "available_commands": {
+        "go down": 4
+      },
+      "items": ["wrench"],
+      "locked": false
+    },
+    {
+      "id": 8,
+      "name": "Robarts Rare Books",
+      "brief_description": "Special collections room.",
+      "long_description": "Climate-controlled archive with rare manuscripts. Requires special access.",
+      "available_commands": {
+        "go west": 5,
+        "go north": 9
+      },
+      "items": ["lucky mug"],
+      "locked": true,
+      "required_items": ["library card", "professor note"]
+    },
+    {
+      "id": 9,
+      "name": "Dorm",
+      "brief_description": "The warm dorm you live at UofT.",
+      "long_description": "Your computer and all your personal belongings are all at your warm dorm,Come back to submit your exercise after finding all the items!",
+      "available_commands": {
+        "go south": 8
+      },
+      "items": ["laptop"],
+      "locked": false
+    }
+  ],
+  "config": {
+    "max_weight": 1.5,
+    "max_moves": 30
+  },
+  "items": [
+    {
+      "id": 1,
+      "name": "lab coat",
+      "start_position": 4,
+      "target_points": 10,
+      "weight": 0.5,
+      "description": "White engineering lab coat with name tag"
+    },
+    {
+      "id": 2,
+      "name": "professor note",
+      "start_position": 6,
+      "target_points": 15,
+      "weight": 0.1,
+      "description": "Signed access permission for special collections"
+    },
+    {
+      "id": 3,
+      "name": "usb drive",
+      "description": "A encrypted USB drive containing course materials",
+      "start_position": 2,
+      "target_points": 10,
+      "weight": 0.2
+    },
+    {
+      "id": 4,
+      "name": "laptop charger",
+      "description": "96W MagSafe charger for MacBook Pro",
+      "start_position": 5,
+      "target_points": 8,
+      "weight": 0.4
+    },
+    {
+      "id": 5,
+      "name": "lucky mug",
+      "description": "CS department mug with clover design",
+      "start_position": 8,
+      "target_points": 50,
+      "weight": 0.6
+    },
+    {
+      "id": 6,
+      "name": "library card",
+      "start_position": 2,
+      "target_points": 5,
+      "weight": 0.1,
+      "description": "Student library access card"
+    },
+    {
+      "id": 7,
+      "name": "handouts",
+      "start_position": 1,
+      "target_points": 1,
+      "weight": 0.2
+    },
+    {
+      "id": 8,
+       "name" : "laptop",
+       "start_position" : 9,
+       "target_points" : 5,
+       "weight" : 0.5
+    }]
+}
+
